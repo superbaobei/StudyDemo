@@ -10,6 +10,25 @@
     <param-value>local</param-value>
   </context-param>
 
+  <!-- 测试用 -->
+  <!--<servlet>-->
+    <!--<servlet-name>myTestServlet</servlet-name>-->
+    <!--<servlet-class>com.sxy.www.servlet.MyTestServlet</servlet-class>-->
+  <!--</servlet>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>myTestServlet</servlet-name>-->
+    <!--<url-pattern>/index.jsp</url-pattern>-->
+  <!--</servlet-mapping>-->
+
+<!--  <filter>
+    <filter-name>testFilter</filter-name>
+    <filter-class>com.sxy.www.filter.MyTestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>testFilter</filter-name>
+    <url-pattern>/*,/healthCheck</url-pattern>
+  </filter-mapping>-->
+
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

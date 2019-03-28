@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -20,6 +21,10 @@ public class MyTestFilter implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        logger.info("do MyTestFilter");
+        HttpServletRequest req = (HttpServletRequest)servletRequest;
+        String uri = req.getRequestURI();
+        logger.info("uid = {}",uri);
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

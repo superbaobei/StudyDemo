@@ -22,7 +22,6 @@ public class TestController {
     @GetMapping(value = "healthCheck")
     @ResponseBody
     public String healthCheck(){
-        System.out.println(myService.toString());
         logger.info("healthCheck");
         return "success";
     }
