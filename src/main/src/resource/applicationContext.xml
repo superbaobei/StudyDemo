@@ -9,8 +9,5 @@
 
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-    <!-- 默认扫描的包路径(扫描整个根目录) -->
-    <context:component-scan base-package="com.sxy.www" />
-
 
 </beans>
