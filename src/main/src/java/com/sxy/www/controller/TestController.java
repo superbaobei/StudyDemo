@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -50,6 +51,10 @@ public class TestController {
             System.out.println("name = " + name);
             ConcurrentMapCache cache = (ConcurrentMapCache) cacheManager.getCache(name);
             ConcurrentMap<Object, Object> realMap =  cache.getNativeCache();
+            for (Map.Entry entry:realMap.entrySet()) {
+                System.out.println("entry.getKey() = " + entry.getKey());
+                System.out.println("entry.getValue() = " + entry.getValue());
+            }
             System.out.println("realMap.size() = " + realMap.size());
         }
         return count;

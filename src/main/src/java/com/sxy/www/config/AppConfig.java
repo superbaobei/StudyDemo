@@ -10,6 +10,7 @@ import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,5 +46,9 @@ public class AppConfig {
         MySimpleCacheManager cacheManager = new MySimpleCacheManager();
         return cacheManager;
     }
+
+//    public RedisCacheManager getRedisCacheManager(){
+//        RedisCacheManager manager = new RedisCacheManager();
+//    }
 
 }
