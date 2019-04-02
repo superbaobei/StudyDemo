@@ -19,7 +19,7 @@ public class MyService {
         logger.info("MyService init");
     }
 
-    @Cacheable(value = "MyService")
+    @Cacheable(value = "MyService" ,cacheManager = "cacheManager")
     public String cacheableMethod(String key){
         logger.info("模拟执行数据库操作");
         return String.valueOf(key.hashCode());

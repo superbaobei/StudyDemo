@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,11 +28,11 @@ public class AppConfig {
         logger.info(AppConfig.class.getName() + " init");
     }
 
-    @Bean
-    @Qualifier("concurrentMapCacheManager")
-    public ConcurrentMapCacheManager getConcurrentMapCacheManager(){
-        return new ConcurrentMapCacheManager();
-    }
+//    @Bean
+//    @Qualifier("concurrentMapCacheManager")
+//    public ConcurrentMapCacheManager getConcurrentMapCacheManager(){
+//        return new ConcurrentMapCacheManager();
+//    }
 
 //    @Bean
 //    @Qualifier("cacheManager")
@@ -39,16 +40,17 @@ public class AppConfig {
 //        return new SimpleCacheManager();
 //    }
 
-    @Bean
-    @Primary
-    @Qualifier("cacheManager")
+    @Bean(name = "mySimpleCacheManager")
     public MySimpleCacheManager getMySimpleCacheManager(){
-        MySimpleCacheManager cacheManager = new MySimpleCacheManager();
-        return cacheManager;
+        MySimpleCacheManager mySimpleCacheManager = new MySimpleCacheManager();
+        return mySimpleCacheManager;
     }
 
-//    public RedisCacheManager getRedisCacheManager(){
-//        RedisCacheManager manager = new RedisCacheManager();
-//    }
+    @Bean(name = "cacheManager")
+    @Primary
+    public RedisCacheManager cacheManager(RedisTemplate redisTemplate){
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        return cacheManager;
+    }
 
 }

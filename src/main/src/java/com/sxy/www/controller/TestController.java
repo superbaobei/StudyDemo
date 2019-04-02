@@ -1,5 +1,7 @@
 package com.sxy.www.controller;
 
+import com.sxy.www.model.Person;
+import com.sxy.www.redis.HashMapping;
 import com.sxy.www.service.MyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Created by xiangyusun on 2019/3/28.
  */
-@Controller
+@RestController
 public class TestController {
 
     Logger logger = LoggerFactory.getLogger(TestController.class);
@@ -29,18 +31,48 @@ public class TestController {
     private MyService myService;
 
     @Autowired
-    @Qualifier("cacheManager")
+    @Qualifier("mySimpleCacheManager")
     private CacheManager cacheManager;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private HashMapping hashMapping;
+
+    @GetMapping(value = "hashWrite")
+    public String hashWrite(Person person,String key){
+        logger.info("hashWrite");
+        hashMapping.writeHash(key,person);
+        return "success";
+    }
+
+    @GetMapping(value = "hashRead")
+    public Person hashRead(String key){
+        logger.info("hashRead");
+        return hashMapping.loadHash(key);
+
+    }
+
     @GetMapping(value = "healthCheck")
-    @ResponseBody
     public String healthCheck(){
         logger.info("healthCheck");
         return "success";
     }
 
+    @GetMapping(value = "redisConnection/{redisKey}")
+    public String testRedis(@PathVariable("redisKey") String redisKey){
+
+        redisTemplate.opsForValue().set(redisKey,redisKey);
+        return "success";
+    }
+
+    @GetMapping(value = "value/{key}")
+    public String getValue(@PathVariable("key") String key){
+        return (String) redisTemplate.opsForValue().get(key);
+    }
+
     @GetMapping(value = "getCacheNum")
-    @ResponseBody
     public Integer getCacheNum(){
         Collection<String> coll = cacheManager.getCacheNames();
         Iterator<String> iterator = coll.iterator();
@@ -61,7 +93,6 @@ public class TestController {
     }
 
     @GetMapping(value = "testCache/{key}")
-    @ResponseBody
     public String testCache(@PathVariable ("key")String key){
         return myService.cacheableMethod(key);
     }
