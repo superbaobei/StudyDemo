@@ -1,0 +1,60 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <context-param>
+    <param-name>spring.profiles.active</param-name>
+    <param-value>local</param-value>
+  </context-param>
+
+  <!-- 测试用 -->
+  <!--<servlet>-->
+    <!--<servlet-name>myTestServlet</servlet-name>-->
+    <!--<servlet-class>com.sxy.www.servlet.MyTestServlet</servlet-class>-->
+  <!--</servlet>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>myTestServlet</servlet-name>-->
+    <!--<url-pattern>/index.jsp</url-pattern>-->
+  <!--</servlet-mapping>-->
+
+<!--  <filter>
+    <filter-name>testFilter</filter-name>
+    <filter-class>com.sxy.www.filter.MyTestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>testFilter</filter-name>
+    <url-pattern>/*,/healthCheck</url-pattern>
+  </filter-mapping>-->
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml,classpath:applicationContext-redis.xml</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc-servlet.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
