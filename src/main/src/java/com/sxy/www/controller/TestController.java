@@ -102,13 +102,43 @@ public class TestController {
         return count;
     }
 
+    /**
+     * 自定义SimpleCacheManager的使用
+     * @param key
+     * @return
+     */
     @GetMapping(value = "testCache/{key}")
     public String testCache(@PathVariable ("key")String key){
         return myService.cacheableMethod(key);
     }
 
+    /**
+     * 插入redis缓存
+     * @param key
+     * @return
+     */
     @GetMapping(value = "testRedisCache/{key}")
     public String testRedisCache(@PathVariable ("key")String key){
         return myService.redisCacheableMethod(key);
+    }
+
+    /**
+     * 缓存驱逐
+     * @param key
+     * @return
+     */
+    @GetMapping(value = "deleteRedisCache/{key}")
+    public String deleteRedisCache(@PathVariable ("key")String key){
+        return myService.deleteRedisCache(key);
+    }
+
+    /**
+     * 缓存更新
+     * @param key
+     * @return
+     */
+    @GetMapping(value = "updateRedisCache/{key}")
+    public String updateRedisCache(@PathVariable ("key")String key){
+        return myService.updateRedisCache(key);
     }
 }

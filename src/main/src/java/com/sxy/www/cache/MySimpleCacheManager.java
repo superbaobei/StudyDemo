@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.AbstractCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
 
 /**
  * Created by xiangyusun on 2019/3/29.
+ * 支持创建不存在的缓存名称的SimpleCacheManager,重写了{@link AbstractCacheManager#getMissingCache(java.lang.String)}方法
  */
 public class MySimpleCacheManager extends SimpleCacheManager {
 
