@@ -10,8 +10,8 @@
           p:hostName="localhost" p:port="6379" p:usePool="true"/>
 
             <!-- redis template definition -->
-    <bean id="redisTemplate"
-          class="org.springframework.data.redis.core.RedisTemplate" p:connectionFactory-ref="jedisConnectionFactory"/>
+    <!--<bean id="redisTemplate"-->
+          <!--class="org.springframework.data.redis.core.RedisTemplate" p:connectionFactory-ref="jedisConnectionFactory"/>-->
 
 
 </beans>

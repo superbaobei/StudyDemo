@@ -1,7 +1,9 @@
 package com.sxy.www.controller;
 
+import com.sxy.www.cache.MySimpleCacheManager;
 import com.sxy.www.model.Person;
 import com.sxy.www.redis.HashMapping;
+import com.sxy.www.repository.common.PersonRepository;
 import com.sxy.www.service.MyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,11 @@ public class TestController {
     @Autowired
     private HashMapping hashMapping;
 
+    public String basicCrudOperations() {
+        Person rand = new Person("rand", "al'thor");
+        return "success";
+    }
+
     @GetMapping(value = "hashWrite")
     public String hashWrite(Person person,String key){
         logger.info("hashWrite");
@@ -61,7 +68,7 @@ public class TestController {
     }
 
     @GetMapping(value = "redisConnection/{redisKey}")
-    public String testRedis(@PathVariable("redisKey") String redisKey){
+    public String insertIntoRedis(@PathVariable("redisKey") String redisKey){
 
         redisTemplate.opsForValue().set(redisKey,redisKey);
         return "success";
@@ -75,6 +82,9 @@ public class TestController {
     @GetMapping(value = "getCacheNum")
     public Integer getCacheNum(){
         Collection<String> coll = cacheManager.getCacheNames();
+        if(cacheManager instanceof MySimpleCacheManager){
+            logger.info("current cacheManager is MySimpleCacheManager");
+        }
         Iterator<String> iterator = coll.iterator();
         Integer count = 0;
         while (iterator.hasNext()) {
@@ -95,5 +105,10 @@ public class TestController {
     @GetMapping(value = "testCache/{key}")
     public String testCache(@PathVariable ("key")String key){
         return myService.cacheableMethod(key);
+    }
+
+    @GetMapping(value = "testRedisCache/{key}")
+    public String testRedisCache(@PathVariable ("key")String key){
+        return myService.redisCacheableMethod(key);
     }
 }
