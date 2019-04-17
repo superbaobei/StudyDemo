@@ -3,8 +3,8 @@ package com.sxy.www.controller;
 import com.sxy.www.cache.MySimpleCacheManager;
 import com.sxy.www.model.Person;
 import com.sxy.www.redis.HashMapping;
-import com.sxy.www.repository.common.PersonRepository;
 import com.sxy.www.service.MyService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,12 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Created by xiangyusun on 2019/3/28.
  */
+@Slf4j
 @RestController
 public class TestController {
-
-    Logger logger = LoggerFactory.getLogger(TestController.class);
+    public TestController() {
+        log.info("testController init");
+    }
 
     @Autowired
     private MyService myService;
@@ -49,21 +51,21 @@ public class TestController {
 
     @GetMapping(value = "hashWrite")
     public String hashWrite(Person person,String key){
-        logger.info("hashWrite");
+        log.info("hashWrite");
         hashMapping.writeHash(key,person);
         return "success";
     }
 
     @GetMapping(value = "hashRead")
     public Person hashRead(String key){
-        logger.info("hashRead");
+        log.info("hashRead");
         return hashMapping.loadHash(key);
 
     }
 
     @GetMapping(value = "healthCheck")
     public String healthCheck(){
-        logger.info("healthCheck");
+        log.info("healthCheck");
         return "success";
     }
 
@@ -83,7 +85,7 @@ public class TestController {
     public Integer getCacheNum(){
         Collection<String> coll = cacheManager.getCacheNames();
         if(cacheManager instanceof MySimpleCacheManager){
-            logger.info("current cacheManager is MySimpleCacheManager");
+            log.info("current cacheManager is MySimpleCacheManager");
         }
         Iterator<String> iterator = coll.iterator();
         Integer count = 0;
