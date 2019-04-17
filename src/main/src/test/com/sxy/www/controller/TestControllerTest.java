@@ -27,12 +27,12 @@ public class TestControllerTest extends BaseWebMockTest {
 
     @Test
     @Timed(millis = 1000)//被注解的方法需要在1s内完成,,否则抛出异常
-    @Repeat(10)//重复执行10次
+    @Repeat(2)//重复执行10次
     public void getArticleListTest() throws Exception {
         log.info("url={}", env.getProperty("database.ip"));
         testController.testRedisCache("dsad");
         //发送请求
-        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.get("/hashWrite").accept(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.get("/testRedisCache/{k}", "dsadsd").accept(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isOk());
         MvcResult mvcResult = resultActions.andReturn();
         String result = mvcResult.getResponse().getContentAsString();
