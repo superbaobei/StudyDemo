@@ -1,12 +1,8 @@
 package com.sxy.www.controller;
 
 import com.sxy.www.cache.MySimpleCacheManager;
-import com.sxy.www.model.Person;
-import com.sxy.www.redis.HashMapping;
 import com.sxy.www.service.MyService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
@@ -40,28 +36,6 @@ public class TestController {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
-    @Autowired
-    private HashMapping hashMapping;
-
-    public String basicCrudOperations() {
-        Person rand = new Person("rand", "al'thor");
-        return "success";
-    }
-
-    @GetMapping(value = "hashWrite")
-    public String hashWrite(Person person,String key){
-        log.info("hashWrite");
-        hashMapping.writeHash(key,person);
-        return "success";
-    }
-
-    @GetMapping(value = "hashRead")
-    public Person hashRead(String key){
-        log.info("hashRead");
-        return hashMapping.loadHash(key);
-
-    }
 
     @GetMapping(value = "healthCheck")
     public String healthCheck(){

@@ -2,7 +2,6 @@ package com.sxy.www.controller;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -41,11 +40,13 @@ public class BaseWebMockTest {
      * spring默认可以注入的bean,不需要自己写一个bean
      */
     @Autowired
-    private WebApplicationContext applicationContext;
+    private WebApplicationContext wac;
 
     @Before
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(context).build();
+//        mockMvc = MockMvcBuilders.standaloneSetup(context).build();
+        // 或者
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
 }
