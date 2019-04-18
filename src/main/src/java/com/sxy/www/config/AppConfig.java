@@ -1,8 +1,11 @@
 package com.sxy.www.config;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.sxy.www.cache.MySimpleCacheManager;
+import com.sxy.www.servlet.ApolloTestBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +21,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Configuration
-@EnableCaching
+@EnableCaching//开启缓存
+@EnableApolloConfig//apollo集成
 public class AppConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
@@ -74,6 +78,11 @@ public class AppConfig {
     public StringRedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory){
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(redisConnectionFactory);
         return stringRedisTemplate;
+    }
+
+    @Bean
+    public ApolloTestBean apolloTestBean() {
+        return new ApolloTestBean();
     }
 
 }

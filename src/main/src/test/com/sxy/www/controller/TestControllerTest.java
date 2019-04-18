@@ -1,5 +1,6 @@
 package com.sxy.www.controller;
 
+import com.sxy.www.service.CodeSet;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.ServiceLoader;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,11 +27,14 @@ public class TestControllerTest extends BaseWebMockTest {
 
     @Autowired
     TestController testController;
-
+    private static ServiceLoader<CodeSet> codecSetLoader
+            = ServiceLoader.load(CodeSet.class);
     @Test
     @Timed(millis = 1000)//被注解的方法需要在1s内完成,,否则抛出异常
     @Repeat(2)//重复执行10次
     public void getArticleListTest() throws Exception {
+        codecSetLoader.iterator().next().setEncodingName("大萨达所");
+        System.out.println(codecSetLoader.iterator().next().getDecoder("dsad"));
         log.info("url={}", env.getProperty("database.ip"));
         testController.testRedisCache("dsad");
         //发送请求

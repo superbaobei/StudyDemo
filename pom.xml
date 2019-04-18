@@ -32,6 +32,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.ctrip.framework.apollo</groupId>
+      <artifactId>apollo-client</artifactId>
+      <version>1.1.0</version>
+    </dependency>
     <!--使用logback打日志 -->
     <dependency>
       <groupId>org.slf4j</groupId>
