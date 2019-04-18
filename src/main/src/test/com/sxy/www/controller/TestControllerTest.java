@@ -1,6 +1,7 @@
 package com.sxy.www.controller;
 
 import com.sxy.www.service.CodeSet;
+import com.sxy.www.servlet.ApolloTestBean;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Iterator;
 import java.util.ServiceLoader;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,16 +27,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j//开启lombok
 public class TestControllerTest extends BaseWebMockTest {
 
+    private static ServiceLoader<CodeSet> codecSetLoader = ServiceLoader.load(CodeSet.class);
+
     @Autowired
     TestController testController;
-    private static ServiceLoader<CodeSet> codecSetLoader
-            = ServiceLoader.load(CodeSet.class);
+
+    @Autowired
+    private ApolloTestBean apolloTestBean;
+
+    @Test
+    public void testServiceLoader() {
+        codecSetLoader.iterator().next().setEncodingName("大萨达所");
+        System.out.println(codecSetLoader.iterator().next().getDecoder("dsad"));
+    }
+
+    @Test
+    @Repeat(5)
+    public void testApollo() {
+        log.info("appname = {} ", apolloTestBean.getAppName());
+        Iterator iterator = apolloTestBean.getAnotherJsonBeans().iterator();
+        while (iterator.hasNext()) {
+            ApolloTestBean.JsonBean jsonBean = (ApolloTestBean.JsonBean) iterator.next();
+            log.info("JsonBean = {}", jsonBean);
+        }
+    }
+
     @Test
     @Timed(millis = 1000)//被注解的方法需要在1s内完成,,否则抛出异常
     @Repeat(2)//重复执行10次
     public void getArticleListTest() throws Exception {
-        codecSetLoader.iterator().next().setEncodingName("大萨达所");
-        System.out.println(codecSetLoader.iterator().next().getDecoder("dsad"));
+
         log.info("url={}", env.getProperty("database.ip"));
         testController.testRedisCache("dsad");
         //发送请求

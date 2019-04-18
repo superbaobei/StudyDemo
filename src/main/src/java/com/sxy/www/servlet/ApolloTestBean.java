@@ -6,8 +6,10 @@ import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
 import com.ctrip.framework.apollo.spring.annotation.ApolloJsonValue;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,6 +44,14 @@ public class ApolloTestBean {
     @ApolloJsonValue("${jsonBeanProperty:[]}")
     private List<JsonBean> anotherJsonBeans;
 
+    public Collection getAnotherJsonBeans() {
+        return CollectionUtils.unmodifiableCollection(anotherJsonBeans);
+    }
+
+    public void setAnotherJsonBeans(List<JsonBean> anotherJsonBeans) {
+        this.anotherJsonBeans = anotherJsonBeans;
+    }
+
     @Value("${batch:100}")
     private int batch;
 
@@ -58,12 +68,6 @@ public class ApolloTestBean {
     //config change listener for namespace application
     @ApolloConfigChangeListener("application")
     private void anotherOnChange(ConfigChangeEvent changeEvent) {
-        log.info("some key's value updated!");
-    }
-
-    //config change listener for namespaces application, FX.apollo and application.yml
-    @ApolloConfigChangeListener({"application", "FX.apollo", "application.yml"})
-    private void yetAnotherOnChange(ConfigChangeEvent changeEvent) {
         log.info("some key's value updated!");
     }
 
@@ -97,6 +101,14 @@ public class ApolloTestBean {
 
         public void setSomeString(String someString) {
             this.someString = someString;
+        }
+
+        @Override
+        public String toString() {
+            return "JsonBean{" +
+                    "someString='" + someString + '\'' +
+                    ", someInt=" + someInt +
+                    '}';
         }
     }
 }
