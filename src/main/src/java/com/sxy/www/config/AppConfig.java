@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Configuration
 @EnableCaching//开启缓存
-@EnableApolloConfig//apollo集成
+//@EnableApolloConfig//apollo集成
+@Import(DynamicRegistrar.class)
 public class AppConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
@@ -43,7 +45,7 @@ public class AppConfig {
 //        return new SimpleCacheManager();
 //    }
 
-    @Bean
+    @Bean(initMethod = "init")
     public MySimpleCacheManager mySimpleCacheManager(){
         MySimpleCacheManager mySimpleCacheManager = new MySimpleCacheManager();
         return mySimpleCacheManager;

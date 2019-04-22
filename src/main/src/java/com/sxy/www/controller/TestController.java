@@ -1,10 +1,12 @@
 package com.sxy.www.controller;
 
 import com.sxy.www.cache.MySimpleCacheManager;
+import com.sxy.www.config.dynamic.DynamicTestBean;
 import com.sxy.www.service.MyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,6 +38,20 @@ public class TestController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private DynamicTestBean dynamicTestBean;
+
+    //    @Value("${${plh}}")
+    @Value("${plh}")
+    private String str2;
+
+    @GetMapping(value = "dynamicTestBean/{str}")
+    public String dynamicTestBean(@PathVariable(value = "str") String str) {
+        dynamicTestBean.print(str);
+        log.info("str2 = {}", str2);
+        return "success";
+    }
 
     @GetMapping(value = "healthCheck")
     public String healthCheck(){
