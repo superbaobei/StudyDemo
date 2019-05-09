@@ -42,15 +42,13 @@ public class DynamicTestBean implements BeanPostProcessor, InitializingBean, Ord
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        log.info("beanName = {}", beanName);
-        log.info("postProcessBeforeInitialization");
+        log.info("order= 1,bean = {}的前置", beanName);
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        log.info("beanName = {}", beanName);
-        log.info("postProcessAfterInitialization");
+        log.info("order= 1,bean = {}的后置", beanName);
         return bean;
     }
 
