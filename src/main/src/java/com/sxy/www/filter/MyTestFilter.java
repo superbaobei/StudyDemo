@@ -1,6 +1,8 @@
 package com.sxy.www.filter;
 
 
+import com.sxy.www.model.User;
+import com.sxy.www.utils.AuthClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,11 @@ public class MyTestFilter implements Filter{
         HttpServletRequest req = (HttpServletRequest)servletRequest;
         String uri = req.getRequestURI();
         logger.info("uid = {}",uri);
+        User user = new User();
+        user.setName("111");
+        AuthClient.setUser(user);
         filterChain.doFilter(servletRequest,servletResponse);
+        AuthClient.removeUser();
     }
 
     @Override
