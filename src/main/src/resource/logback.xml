@@ -2,7 +2,7 @@
 <configuration debug="false" scan="true" scanPeriod="5 seconds">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{100} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{100} - [%M\(%line\)]%msg%n</pattern>
         </encoder>
     </appender>
 
@@ -28,4 +28,9 @@
         <level value="debug"/>
         <appender-ref ref="CONSOLE"/>
     </root>
+
+    <logger name="com.sxy.www.utils.RedisLock" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
 </configuration>

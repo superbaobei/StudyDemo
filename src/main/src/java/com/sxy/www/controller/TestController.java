@@ -1,8 +1,8 @@
 package com.sxy.www.controller;
 
 import com.sxy.www.cache.MySimpleCacheManager;
-import com.sxy.www.config.dynamic.DynamicTestBean;
 import com.sxy.www.service.MyService;
+import com.sxy.www.utils.RedisLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xiangyusun on 2019/3/28.
@@ -32,6 +34,10 @@ public class TestController {
     @Autowired
     private MyService myService;
 
+
+    @Autowired
+    private RedisLock redisLock;
+
     @Autowired
     @Qualifier("mySimpleCacheManager")
     private CacheManager cacheManager;
@@ -39,21 +45,21 @@ public class TestController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    private DynamicTestBean dynamicTestBean;
+//    @Autowired
+//    private DynamicTestBean dynamicTestBean;
 
     //    @Value("${${plh}}")
     @Value("${plh}")
     private String str2;
 
-    @GetMapping(value = "dynamicTestBean/{str}")
-    public String dynamicTestBean(@PathVariable(value = "str") String str) {
-        dynamicTestBean.print(str);
-        log.info("str2 = {}", str2);
-        return "success";
-    }
+//    @GetMapping(value = "dynamicTestBean/{str}")
+//    public String dynamicTestBean(@PathVariable(value = "str") String str) {
+//        dynamicTestBean.print(str);
+//        log.info("str2 = {}", str2);
+//        return "success";
+//    }
 
-    @GetMapping(value = "healthCheck")
+    @GetMapping(value = "healthCheck", produces = MediaType.APPLICATION_JSON_VALUE)
     public String healthCheck(){
         log.info("healthCheck");
         return "success";
@@ -132,5 +138,15 @@ public class TestController {
     @GetMapping(value = "updateRedisCache/{key}")
     public String updateRedisCache(@PathVariable ("key")String key){
         return myService.updateRedisCache(key);
+    }
+
+    @GetMapping(value = "lock/{lockKey}/{lockValue}")
+    public String lock(@PathVariable("lockKey") String lockKey, @PathVariable("lockValue") String lockValue) {
+        return String.valueOf(redisLock.waitUntilLocked(lockKey, lockValue, 60, 10, TimeUnit.SECONDS));
+    }
+
+    @GetMapping(value = "unlock/{lockKey}/{lockValue}")
+    public String unlock(@PathVariable("lockKey") String lockKey, @PathVariable("lockValue") String lockValue) {
+        return String.valueOf(redisLock.unLock(lockKey, lockValue));
     }
 }

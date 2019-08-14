@@ -9,6 +9,7 @@ import org.springframework.core.type.AnnotationMetadata;
 
 /**
  * Created by xiangyusun on 2019/4/18.
+ * 动态注册bean
  */
 public class DynamicRegistrar implements ImportBeanDefinitionRegistrar {
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Created by xiangyusun on 2019/4/22.
  */
 @Slf4j
-@Component
+//@Component
 public class PriorityBeanPostProcessor implements BeanPostProcessor, Ordered, InitializingBean {
 
     /**

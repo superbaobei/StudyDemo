@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class MyHandlerInterceptorAdapter extends HandlerInterceptorAdapter {
 
-    public MyHandlerInterceptorAdapter() {
+    private static int count = 0;
 
-        System.out.println("---dsadsd-------");
+    public MyHandlerInterceptorAdapter() {
+        count++;
+        System.out.println("第" + count + "次构造方法调用");
     }
 
     @Override
