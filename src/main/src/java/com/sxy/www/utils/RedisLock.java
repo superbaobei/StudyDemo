@@ -21,14 +21,8 @@ public class RedisLock implements DistributedLock {
 
     private final String DEFAULT_LOCK_VALUE = "ok";
 
-
-    private static final int LOCK_MAX_EXIST_TIME = 5;  // 单位s，一个线程持有锁的最大时间
-    private static final String LOCK_PREX = "lock_"; // 作为锁的key的前缀
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-    private String lockPrex; // 做为锁key的前缀
 
     private DefaultRedisScript<Long> lockScript; // 锁脚本
 
