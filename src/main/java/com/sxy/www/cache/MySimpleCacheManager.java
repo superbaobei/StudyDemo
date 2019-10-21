@@ -18,7 +18,6 @@ public class MySimpleCacheManager extends SimpleCacheManager {
     public MySimpleCacheManager() {
         logger.info("MySimpleCacheManager new instance");
     }
-
     @Override
     protected Cache getMissingCache(String name) {
         logger.info("create missing cache name :{}",name);

@@ -72,7 +72,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.2</version>
+        <version>1.16.22</version>
     </dependency>
 
     <dependency>
@@ -237,7 +237,33 @@
     <finalName>SpringMvcDemo</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        <plugin>
+
+          <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+              <version>9.4.8.v20171121</version>
+              <configuration>
+                  <stopKey>foo</stopKey>
+                  <stopPort>9999</stopPort>
+                  <scanIntervalSeconds>100</scanIntervalSeconds>
+                  <webApp>
+                      <contextPath>/risk</contextPath>
+                  </webApp>
+                  <httpConnector>
+                      <port>8088</port>
+                  </httpConnector>
+                  <!-- 增加systemProperties属性 -->
+                  <systemProperties>
+                      <systemProperty>
+                          <name>org.eclipse.jetty.server.Request.maxFormContentSize</name>
+                          <!-- -1代表不作限制 -->
+                          <value>-1</value>
+                      </systemProperty>
+                  </systemProperties>
+              </configuration>
+          </plugin>
+
+          <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>

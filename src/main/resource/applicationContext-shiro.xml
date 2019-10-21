@@ -9,11 +9,10 @@
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
-        <property name="rememberMeManager" value="cacheManager"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
-
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
-
 
     <!-- Shiro过滤器 核心-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -31,8 +30,9 @@
                 /login=anon
                 /student=roles[teacher]
                 /teacher=perms["user:create"]
+                /logout=logout
                 <!--authc表示需要认证 没有进行身份认证是不能进行访问的-->
-                /*=authc
+                /**=authc
             </value>
         </property>
     </bean>
@@ -45,5 +45,19 @@
           depends-on="lifecycleBeanPostProcessor"/>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--手动指定cookie-->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="604800"/><!-- 7天 -->
+    </bean>
+
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager"
+          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!--注入自定义cookie(主要是设置寿命, 默认的一年太长)-->
+        <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 </beans>

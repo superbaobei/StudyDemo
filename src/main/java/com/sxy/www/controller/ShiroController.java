@@ -28,10 +28,10 @@ public class ShiroController {
     }
 
     @GetMapping("login")
-    public String login() {
+    public String login(String username, String password) {
 
         Subject subject = SecurityUtils.getSubject() ;
-        UsernamePasswordToken token = new UsernamePasswordToken("sun","1213") ;
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
             return "admin" ;
